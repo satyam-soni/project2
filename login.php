@@ -2,7 +2,7 @@
 	session_start();
 if(isset($_SESSION['uid']))
   {
-    header("location:home.php");
+    header("location:datatable/index.php");
   //  die("ss");
 }
 
@@ -20,6 +20,35 @@ if(isset($_SESSION['uid']))
 	<meta name="google-signin-client_id" content="580529046635-huhs7smsvshdec8q2slufjpbpbbf9csj.apps.googleusercontent.com">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script>
+	    function onSignIn(googleUser)
+			{
+	          var profile = googleUser.getBasicProfile();
+				  //	console.log(profile);
+						var email = profile.U3;
+						var fullname = profile.ig;
+						//window.location.href='functions/gmail_signin.php?query='.(email);
+					$.ajax({
+							url: 'functions/gmail_signin.php',
+							type : 'POST',
+						 //	datatype: 'JSON',
+							data:{fullname: fullname, email: email},
+               success : function(response){
+								 //console.log("hi");
+								 //alert(response);
+
+									window.location.href="home.php";
+									//window.location.reload(true);
+
+							}
+
+
+						});
+
+
+      }
+	</script>
+
 
 </head>
 <body>
@@ -31,7 +60,7 @@ if(isset($_SESSION['uid']))
 	<h2 class="text-center">Login Here</h2>
 		<form action="include/login.php" method="post" name="login">
 		<div class="form-group">
-		<label>UserName or Email:</label>
+		<label> Email:</label>
 
 
 		<input class="form-control" type="text" name="email" required=""  value="<?php if(isset($_COOKIE["email"])) { echo $_COOKIE["email"]; } ?>"/>
